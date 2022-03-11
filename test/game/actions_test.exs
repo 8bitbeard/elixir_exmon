@@ -11,14 +11,18 @@ defmodule ExMon.Game.ActionsTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :random)
+      turn =
+        Game.turn()
+        |> Atom.to_string()
+        |> String.capitalize()
 
       messages =
         capture_io(fn ->
           assert Actions.attack(:move_avg) == :ok
         end)
 
-      assert messages =~ "===== The Player attacked the computer dealing"
+      assert messages =~ "===== The #{turn} attacked"
     end
   end
 
@@ -27,14 +31,15 @@ defmodule ExMon.Game.ActionsTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :random)
+      turn = Game.turn()
 
       messages =
         capture_io(fn ->
           assert Actions.heal == :ok
         end)
 
-      assert messages =~ "===== The player healed himself to 100 lifepoints ====="
+      assert messages =~ "===== The #{turn} healed himself to 100 lifepoints ====="
     end
   end
 
@@ -43,7 +48,7 @@ defmodule ExMon.Game.ActionsTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :random)
 
       response = Actions.fetch_move(:chute)
 

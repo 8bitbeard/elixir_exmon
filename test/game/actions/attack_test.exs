@@ -11,7 +11,7 @@ defmodule ExMon.Game.Actions.AttackTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :random)
 
       messages =
         capture_io(fn ->

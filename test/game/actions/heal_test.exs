@@ -7,11 +7,25 @@ defmodule ExMon.Game.Actions.HealTest do
   alias ExMon.Game.Actions.Heal
 
   describe "heal_life/1" do
-    test "should perform an heal over 100 successfully" do
+    test "the player should perform an heal over 100 successfully" do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :player)
+
+      messages =
+        capture_io(fn ->
+          assert Heal.heal_life(:player) == :ok
+        end)
+
+      assert messages =~ "===== The player healed himself to 100 lifepoints ====="
+    end
+
+    test "the computer should perform an heal over 100 successfully" do
+      player = Player.build("TestUser", :chute, :soco, :cura)
+      computer = Player.build("Machine", :chute, :soco, :cura)
+
+      Game.start(computer, player, :computer)
 
       messages =
         capture_io(fn ->
@@ -25,7 +39,7 @@ defmodule ExMon.Game.Actions.HealTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :random)
 
       new_state = %{
         computer: %Player{

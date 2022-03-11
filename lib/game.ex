@@ -3,8 +3,9 @@ defmodule ExMon.Game do
 
   alias ExMon.Player
 
-  def start(computer, player) do
-    initial_value = %{computer: computer, player: player, turn: :player, status: :started}
+  def start(computer, player, player_one) do
+    initial_player = random_player(player_one)
+    initial_value = %{computer: computer, player: player, turn: initial_player, status: :started}
     Agent.start_link(fn -> initial_value end, name: __MODULE__)
   end
 
@@ -21,6 +22,13 @@ defmodule ExMon.Game do
   def turn, do: Map.get(info(), :turn)
 
   def fetch_player(player), do: Map.get(info(), player)
+
+  defp random_player(player_one) do
+    case player_one do
+      :random -> Enum.random([:player, :computer])
+      _ -> player_one
+    end
+  end
 
   defp update_game_status(
          %{player: %Player{life: player_life}, computer: %Player{life: computer_life}} = state

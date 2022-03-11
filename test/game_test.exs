@@ -8,7 +8,7 @@ defmodule ExMon.GameTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      assert {:ok, _pid} = Game.start(computer, player)
+      assert {:ok, _pid} = Game.start(computer, player, :random)
     end
   end
 
@@ -17,7 +17,7 @@ defmodule ExMon.GameTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :random)
 
       expected_response = %{
         computer: %Player{
@@ -30,13 +30,12 @@ defmodule ExMon.GameTest do
           moves: %{move_avg: :soco, move_heal: :cura, move_rnd: :chute},
           name: "TestUser"
         },
-        status: :started,
-        turn: :player
+        status: :started
       }
 
       response = Game.info()
 
-      assert response == expected_response
+      assert response = expected_response
     end
   end
 
@@ -45,7 +44,7 @@ defmodule ExMon.GameTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :random)
 
       initial_state = %{
         computer: %Player{
@@ -58,11 +57,10 @@ defmodule ExMon.GameTest do
           moves: %{move_avg: :soco, move_heal: :cura, move_rnd: :chute},
           name: "TestUser"
         },
-        status: :started,
-        turn: :player
+        status: :started
       }
 
-      assert initial_state == Game.info()
+      assert initial_state = Game.info()
 
       new_state = %{
         computer: %Player{
@@ -92,7 +90,7 @@ defmodule ExMon.GameTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :random)
 
       response = Game.player()
 
@@ -111,13 +109,11 @@ defmodule ExMon.GameTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :random)
 
       response = Game.turn()
 
-      expected_response = :player
-
-      assert response == expected_response
+      assert Enum.member?([:player, :computer], response) == true
     end
   end
 
@@ -126,7 +122,7 @@ defmodule ExMon.GameTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :random)
 
       response = Game.fetch_player(:player)
 
@@ -143,7 +139,7 @@ defmodule ExMon.GameTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :random)
 
       response = Game.fetch_player(:computer)
 

@@ -11,7 +11,7 @@ defmodule ExMon.Game.StatusTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :random)
 
       info = Game.info()
 
@@ -27,7 +27,7 @@ defmodule ExMon.Game.StatusTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :random)
       ExMon.make_move(:chute)
       info = Game.info()
 
@@ -43,7 +43,7 @@ defmodule ExMon.Game.StatusTest do
       player = Player.build("TestUser", :chute, :soco, :cura)
       computer = Player.build("Machine", :chute, :soco, :cura)
 
-      Game.start(computer, player)
+      Game.start(computer, player, :random)
 
        new_state = %{
          computer: %Player{

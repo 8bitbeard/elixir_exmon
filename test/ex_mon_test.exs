@@ -30,7 +30,19 @@ defmodule ExMonTest do
 
       assert messages =~ "===== The game has started! ====="
       assert messages =~ "status: :started"
-      assert messages =~ "turn: :player"
+    end
+
+    test "when the computer is the first player, makes a move" do
+      player = Player.build("TestUser", :chute, :soco, :cura)
+
+      messages =
+        capture_io(fn ->
+          assert ExMon.start_game(player, :computer) == :ok
+        end)
+
+      assert messages =~ "===== The game has started! ====="
+      assert messages =~ "status: :started"
+
     end
   end
 
@@ -61,7 +73,7 @@ defmodule ExMonTest do
           ExMon.make_move(:cura)
         end)
 
-      assert messages =~ "===== The player healed himself to 100 lifepoints ====="
+      assert messages =~ "===== The player healed himself to "
       assert messages =~ "===== It's computer turn ====="
       assert messages =~ "status: :continue,\n  turn: :computer"
       assert messages =~ "===== It's player turn ====="

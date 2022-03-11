@@ -9,12 +9,13 @@ defmodule ExMon do
     Player.build(name, move_avg, move_rnd, move_heal)
   end
 
-  def start_game(player) do
+  def start_game(player, first_player \\ :random) do
     @computer_name
     |> create_player(:punch, :kick, :heal)
-    |> Game.start(player)
+    |> Game.start(player, first_player)
 
     Status.print_round_message(Game.info())
+    handle_first_move(Game.info())
   end
 
   def make_move(move) do
@@ -43,10 +44,25 @@ defmodule ExMon do
     Status.print_round_message(Game.info())
   end
 
-  defp computer_move(%{turn: :computer, status: :continue}) do
+  defp handle_first_move(%{turn: :computer, status: :started}) do
     {:ok, Enum.random(@computer_moves)}
     |> do_move()
   end
 
+  defp handle_first_move(_), do: :ok
+
+  defp computer_move(%{computer: %Player{life: computer_life}, turn: :computer, status: :continue}) do
+    computer_life
+    |> handle_computer_movement()
+    |> do_move()
+  end
+
   defp computer_move(_), do: :ok
+
+  defp handle_computer_movement(life) do
+    case life < 40 do
+      true -> {:ok, Enum.random(@computer_moves ++ List.duplicate(:move_heal, 2))}
+      _ -> {:ok, Enum.random(@computer_moves)}
+    end
+  end
 end
