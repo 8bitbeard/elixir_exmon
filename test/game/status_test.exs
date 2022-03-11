@@ -13,23 +13,6 @@ defmodule ExMon.Game.StatusTest do
 
       Game.start(computer, player)
 
-      # new_state = %{
-      #   computer: %Player{
-      #     life: 85,
-      #     moves: %{move_avg: :soco, move_heal: :cura, move_rnd: :chute},
-      #     name: "Machine"
-      #   },
-      #   player: %Player{
-      #     life: 100,
-      #     moves: %{move_avg: :soco, move_heal: :cura, move_rnd: :chute},
-      #     name: "TestUser"
-      #   },
-      #   status: :started,
-      #   turn: :player
-      # }
-
-      # Game.update(new_state | )
-
       info = Game.info()
 
       messages =

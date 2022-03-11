@@ -1,5 +1,5 @@
 defmodule ExMon.PlayerTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   alias ExMon.Player
 
